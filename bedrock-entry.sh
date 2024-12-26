@@ -97,7 +97,7 @@ case ${VERSION^^} in
       lookupVersion serverBedrockPreviewLinux "${VERSION}"
     else
       echo "Using given version ${VERSION}"
-      lookupVersion serverBedrockLinux "${VERSION}"
+      #lookupVersion serverBedrockLinux "${VERSION}"
     fi
     ;;
 esac
