@@ -25,6 +25,9 @@ function lookupVersion() {
   platform=${1:?Missing required platform indicator}
   customVersion=${2:-}
 
+  echo "lookup version is disabled!"
+  exit 1
+  
   # shellcheck disable=SC2034
   for i in {1..3}; do
     DOWNLOAD_URL=$(restify --user-agent=itzg/minecraft-bedrock-server --headers "accept-language:*" --attribute=data-platform="${platform}" "${downloadPage}" 2> restify.err | jq -r '.[0].href' || echo '')
