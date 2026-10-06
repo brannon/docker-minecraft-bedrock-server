@@ -101,12 +101,13 @@ case ${VERSION^^} in
     else
       echo "Using given version ${VERSION}"
       #lookupVersion serverBedrockLinux "${VERSION}"
+
+      DOWNLOAD_URL="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${VERSION}.zip"
     fi
     ;;
 esac
 
-if [[ ! -f "bedrock_server-${VERSION}" ]]; then
-
+if [[ ! -f "$DOWNLOAD_DIR/bedrock-server-${VERSION}.zip" ]]; then
   [[ $DOWNLOAD_DIR != /tmp ]] && mkdir -p "$DOWNLOAD_DIR"
   TMP_ZIP="$DOWNLOAD_DIR/$(basename "${DOWNLOAD_URL}")"
 
@@ -116,6 +117,11 @@ if [[ ! -f "bedrock_server-${VERSION}" ]]; then
     echo "      Double check that the given VERSION is valid"
     exit 2
   fi
+else
+  TMP_ZIP="$DOWNLOAD_DIR/bedrock-server-${VERSION}.zip"
+fi
+
+if [[ ! -f "bedrock_server-${VERSION}" ]]; then
 
   # remove only binaries and some docs, to allow for an upgrade of those
   rm -rf -- bedrock_server bedrock_server-* *.so release-notes.txt bedrock_server_how_to.html valid_known_packs.json premium_cache 2> /dev/null
@@ -149,7 +155,7 @@ if [[ ! -f "bedrock_server-${VERSION}" ]]; then
   # Do not overwrite existing files, which means the cleanup above needs to account for things
   # that MUST be replaced on upgrade
   unzip -q -n "${TMP_ZIP}"
-  [[ $DOWNLOAD_DIR != /tmp ]] && rm -rf "$DOWNLOAD_DIR"
+  #[[ $DOWNLOAD_DIR != /tmp ]] && rm -rf "$DOWNLOAD_DIR"
 
   chmod +x bedrock_server
   mv bedrock_server "bedrock_server-${VERSION}"
